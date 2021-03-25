@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% block title %} | Welcome {% endblock %}
+{% block content %}
+
+{% load humanize %}
+
+
+
+<!-- Showcase -->
+<section id="showcase">
+    <div class="container text-center">
+      <div class="home-search p-5">
+        <div class="overlay p-5">
+          <h1 class="display-4 mb-4">
+            Courses Searching Just Got So Easy
+          </h1>
+          <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Recusandae quas, asperiores eveniet vel nostrum magnam
+            voluptatum tempore! Consectetur, id commodi!</p>
+          <div class="search">
+            <form action="{% url 'search' %}">
+              <!-- Form Row 1 -->
+              <div class="form-row">
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Keywords</label>
+                  <input type="text" name="keywords" class="form-control" placeholder="Keyword (Python, System design etc)" >
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Course Type</label>
+                  <select name="course_mode" class="form-control" >
+                    <option selected="true" disabled="disabled">Recordings </option>
+                    {% for key, value in course_type_choice.items %}
+                      <option value="{{ key }}">{{ value }}</option>
+
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Course</label>
+                  <select name="course" class="form-control">
+                    <option selected="true" disabled="disabled">Courses</option>
+                    {% for key, value in course_choices.items %}
+                      <option value="{{ key }}">{{ value }}</option>
+
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+             
+              <button class="btn btn-secondary btn-block mt-4" type="submit">Submit form</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+  <!-- Alerts -->
+  {% include 'partials/_alerts.html'%}
+  <!-- Listings -->
+  <section id="listings" class="py-5">
+    <div class="container">
+      <h3 class="text-center mb-3">Our Courses</h3>
+      <div class="row">
+        {% if courses %}
+          {% for course in courses%}
+            <!-- Listing 1 -->
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card listing-preview">
+                <img class="card-img-top" src="{{ course.main_image.url }}" alt="" height=200px>
+                <div class="card-img-overlay">
+                  <h2>
+                    <span class="badge badge-secondary text-white fas fa-rupee-sign">{{ course.price | intcomma }}</span>
+                  </h2>
+                </div>
+                <div class="card-body">
+                  <div class="listing-heading text-center">
+                    <h4 class="text-primary">{{ course.title }}</h4>
+                    <p>
+                      <i class="fas fa-map-marker text-secondary"></i> {{ course.course_mode }}</p>
+                  </div>
+                  <hr>
+                  <div class="row py-2 text-secondary">
+                    <div class="col-6">
+                      <i class="fas fa-rupee-sign"></i> Price : {{ course.price }}</div>
+                    <div class="col-6">
+                      <i class="fas fa-clock"></i> Duration: {{ course.duration}}hrs </div>
+                  </div>
+                  
+                  <hr>
+                  <div class="row py-2 text-secondary">
+                    <div class="col-6">
+                      <i class="fas fa-user"></i> {{ course.instructor }}</div>
+                  </div>
+                  <div class="row text-secondary pb-2">
+                    <div class="col-6">
+                      <i class="fas fa-clock"></i> {{ course.next_batch_start_date}}</div>
+                  </div>
+                  <hr>
+                  <a href="{% url 'course' course.id %}" class="btn btn-primary btn-block">More Info</a>
+                </div>
+              </div>
+            </div>
+
+
+          {% endfor %}
+
+        {% else %}
+          <div class="col-md-12">
+            <p>No Courses Available</p>
+          </div>
+
+        {% endif %}
+        
+        
+
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="py-5 bg-secondary text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-4">
+          <i class="fas fa-laptop-code fa-4x mr-4"></i>
+          <hr>
+          <h3>Online Courses</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, debitis nam! Repudiandae, provident iste consequatur
+            hic dignissimos ratione ea quae.</p>
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-briefcase fa-4x mr-4"></i>
+          <hr>
+          <h3>Job Assistance</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, debitis nam! Repudiandae, provident iste consequatur
+            hic dignissimos ratione ea quae.</p>
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-address-card fa-4x mr-4"></i>
+          <hr>
+          <h3>Resume Building</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, debitis nam! Repudiandae, provident iste consequatur
+            hic dignissimos ratione ea quae.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+{% endblock %}
