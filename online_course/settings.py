@@ -82,17 +82,25 @@ WSGI_APPLICATION = 'online_course.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'online_course',
-        'USER':'postgres',
-        'PASSWORD':'postgres',
-        'HOST':'localhost',
-        'PORT':5433
-        
-    }
-}
+if 'RDS_DB_NAME' in os.environ:
+   DATABASES = {
+       'default': {
+           'ENGINE': 'django.db.backends.postgresql_psycopg2',
+           'NAME': 'ebdb',
+           'USER' : 'postgres',
+           'PASSWORD' : 'postgres',
+           'HOST': 'aa11efgmdkewwz1.c23w9jhjoghw.ap-south-1.rds.amazonaws.com',
+           'PORT' : 5432
+       }
+   }
+else:
+   DATABASES ={
+       'default': {
+           'ENGINE': 'django.db.backends.sqlite3',
+           'NAME': os.path.join(BASE_DIR,'db.sqlite3'),
+       }
+   }
+
 
 
 # Password validation
